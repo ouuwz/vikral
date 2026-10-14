@@ -1,287 +1,264 @@
-# Vikral — Phase 7: Data Integration & Evidence Validation
+# Vikral — AI-Powered Digital Risk Protection
 
-A responsive Digital Risk Protection workspace for Vikral. Phase 7 adds traceable evidence handling and truthful provider status reporting while preserving Phases 1–6. It does not scrape social platforms, fetch submitted URLs, bypass access controls, or claim independent verification.
+**Detect digital threats. Investigate suspicious identities. Protect your brand.**
 
-## Project structure
+Vikral is a digital risk protection platform designed to help organizations identify and investigate potential brand impersonation, suspicious social media profiles, and fraudulent mobile applications. It combines deterministic threat detection with AI-assisted contextual analysis to support evidence-based cybersecurity decisions.
+
+## Overview
+
+Organizations face growing risks from fake social media accounts, misleading brand pages, and mobile applications that may impersonate legitimate businesses. Vikral provides a centralized platform to discover suspicious digital assets, examine risk indicators, and review supporting evidence.
+
+The platform focuses on transparent analysis: detection signals and risk scores are kept separate from AI-generated explanations, and findings are presented with their evidence and limitations.
+
+## Key Features
+
+- **Brand Profile Management** — Define legitimate brand identities, trusted domains, official social accounts, and other brand assets.
+- **Social Media Monitoring** — Search public Bluesky profiles for potentially suspicious identities.
+- **Mobile App Monitoring** — Search the Apple App Store for applications that may impersonate a brand.
+- **Threat Detection Engine** — Evaluate digital identities using deterministic rules and risk indicators.
+- **AI-Assisted Analysis** — Provide contextual explanations and investigation guidance using a configurable LLM provider.
+- **Evidence Tracking** — Preserve source information and provenance for investigation findings.
+- **Duplicate Detection** — Identify previously recorded evidence to reduce redundant investigations.
+- **Unified Dashboard** — Review potential threats, risk signals, and investigation results in one interface.
+
+## Technology Stack
+
+| Component | Technology |
+|---|---|
+| Frontend | React, TypeScript, Vite |
+| Styling | CSS |
+| Backend | Node.js, Express, TypeScript |
+| Database | MongoDB, Mongoose |
+| AI integration | OpenRouter-compatible LLM API |
+| Social data source | Public Bluesky API |
+| Mobile app data source | Apple iTunes Search API |
+| Frontend hosting | Vercel |
+| Backend hosting | Render |
+
+## Architecture
+
+```text
+User
+  |
+  v
+React + TypeScript Frontend
+  |
+  | HTTPS API requests
+  v
+Node.js + Express Backend
+  |
+  +---- Threat Detection Engine
+  |
+  +---- Bluesky Public API
+  |
+  +---- Apple App Store Search API
+  |
+  +---- OpenRouter LLM API
+  |
+  +---- MongoDB
+```
+
+The frontend communicates with the backend through HTTP API requests. The backend handles provider integrations, detection logic, evidence processing, database operations, and optional AI-assisted interpretation.
+
+## Project Structure
 
 ```text
 vikral/
 ├── frontend/
-│   ├── public/vikral-mark.svg
+│   ├── public/
 │   ├── src/
-│   │   ├── components/       # Brand mark and navigation
-│   │   ├── pages/             # Landing page
-│   │   ├── styles/            # Plain CSS stylesheets
-│   │   ├── App.tsx
-│   │   └── main.tsx
+│   │   ├── api/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── styles/
+│   │   └── types/
 │   ├── .env.example
-│   ├── index.html
 │   ├── package.json
-│   ├── tsconfig.json
 │   └── vite.config.ts
 ├── backend/
 │   ├── src/
-│   │   ├── database/connection.ts # MongoDB connection lifecycle
-│   │   ├── detection/              # Normalization and similarity primitives
-│   │   ├── models/brand.model.ts
-│   │   ├── models/evidence.model.ts
-│   │   ├── repositories/brand.repository.ts
-│   │   ├── providers/          # Provider adapter contract and disabled test adapter
-│   │   ├── routes/             # Health, brands, detection, monitoring, dashboard, integrations
-│   │   ├── services/detection.service.ts
-│   │   ├── types/brand.types.ts
-│   │   ├── validation/brand.validation.ts
-│   │   ├── validation/evidence.validation.ts
-│   │   ├── app.ts
-│   │   └── server.ts
-│   ├── .env.example
 │   ├── package.json
 │   └── tsconfig.json
-├── package.json               # npm workspaces and root scripts
-└── .gitignore
+├── .gitignore
+├── package.json
+├── package-lock.json
+├── render.yaml
+└── README.md
 ```
 
-## Requirements
+*The backend structure shown is representative. Exact files and folders may vary by version.*
 
-- Node.js **20.19+** or **22.12+**
-- npm 10 or newer recommended
-- Internet access for installing npm packages, loading Inter from Google Fonts, and streaming the background video
+## Getting Started
 
-## Install
+### Prerequisites
 
-From the repository root:
+Install the following before running the project:
+
+- Node.js compatible with the project's package configuration
+- npm
+- MongoDB database, local or MongoDB Atlas
+- OpenRouter API key if AI-assisted analysis is enabled
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/rajgupta6282941-commits/hackathonproject01.git
+cd hackathonproject01
+```
+
+### 2. Install Dependencies
+
+Install root dependencies if the root `package.json` defines them:
 
 ```bash
 npm install
 ```
 
-Copy the example environment files if you want to configure ports or the frontend proxy explicitly:
+Install frontend dependencies:
 
 ```bash
-cp backend/.env.example backend/.env
-cp frontend/.env.example frontend/.env
+cd frontend
+npm install
 ```
 
-The backend requires MongoDB for Phase 2. Set `MONGODB_URI` in `backend/.env` to a local or managed MongoDB database. Do not commit this file or real credentials:
+Install backend dependencies:
+
+```bash
+cd ../backend
+npm install
+```
+
+### 3. Configure Environment Variables
+
+Create a `.env` file in the backend directory and add the variables required by the backend configuration.
+
+Example:
 
 ```env
-PORT=3001
-MONGODB_URI=mongodb://127.0.0.1:27017/vikral
+NODE_ENV=development
+PORT=3000
+MONGODB_URI=your_mongodb_connection_string
+OPENROUTER_API_KEY=your_openrouter_api_key
+CORS_ALLOWED_ORIGINS=http://localhost:5173
 ```
 
-The API fails clearly at startup if `MONGODB_URI` is missing or the database cannot be reached; it does not pretend that data was saved. Vite proxies `/api/*` requests to `http://localhost:3001` by default. Override that target with `VITE_API_PROXY_TARGET` in `frontend/.env` if needed.
+Use the exact environment variable names expected by your backend source code. If your implementation uses a different LLM key name, configure that name instead.
 
-MongoDB's actual storage files remain managed by the Windows MongoDB service. The Vikral project contains only connection, model, repository, route, validation, and type source files; it does not create a duplicate local data directory.
+For the frontend, create `frontend/.env`:
 
-## Run locally
+```env
+VITE_API_BASE_URL=http://localhost:3000
+```
 
-### Run both servers together
+Adjust the local backend URL and port to match your configuration.
+
+**Security:** Never commit real API keys, database credentials, or `.env` files to GitHub. Keep secrets in environment variables on your hosting provider.
+
+### 4. Run the Backend
 
 ```bash
+cd backend
+npm run build
+npm start
+```
+
+Use the development script from `backend/package.json` if you want automatic restarts while coding.
+
+### 5. Run the Frontend
+
+Open a separate terminal:
+
+```bash
+cd frontend
 npm run dev
 ```
 
-- Frontend: <http://localhost:5173>
-- Backend health endpoint: <http://localhost:3001/api/health>
-- Brand Profiles: <http://localhost:5173/brands>
-- Social Monitoring: <http://localhost:5173/social-monitoring>
-- Mobile App Monitoring: <http://localhost:5173/app-monitoring>
-- Threat Intelligence Dashboard: <http://localhost:5173/dashboard>
-- Data Sources: <http://localhost:5173/integrations>
+Open the local URL printed by Vite, typically `http://localhost:5173`.
 
-### Or run them in separate terminals
+Check the actual scripts in each `package.json` if a command differs.
 
-Terminal 1 — backend:
+## API Integrations
 
-```bash
-npm run dev:backend
-```
+### Bluesky
 
-Terminal 2 — frontend:
+Vikral uses the public Bluesky API to search for publicly available profiles. Returned profile information can be examined by the threat detection engine.
 
-```bash
-npm run dev:frontend
-```
+### Apple App Store
 
-## Build and type-check
+Vikral uses Apple's public iTunes Search API to find applications matching a search query. Results can be investigated for potential brand impersonation indicators.
 
-```bash
-# Type-check both workspaces
-npm run typecheck
+### OpenRouter
 
-# Build frontend and backend
-npm run build
-```
+An OpenRouter-compatible language model can provide contextual explanations and recommended investigation steps. AI analysis supplements the detection engine; it does not establish that an account or application is malicious.
 
-The frontend production bundle is written to `frontend/dist/`; the compiled backend is written to `backend/dist/`.
+### MongoDB
 
-To run the compiled backend after building:
-
-```bash
-npm run start:backend
-```
-
-## API endpoints
-
-`GET /api/health` responds with HTTP `200 OK` and:
-
-```json
-{
-  "status": "ok",
-  "service": "vikral-api",
-  "database": "connected"
-}
-```
-
-The health endpoint returns HTTP `503` and `"status": "degraded"` if the database connection is lost.
-
-The same path is available via the Vite development server at <http://localhost:5173/api/health> because of the dev proxy.
-
-Brand profile endpoints:
-
-- `GET /api/brands` — list saved profiles
-- `POST /api/brands` — create a profile
-- `GET /api/brands/:id` — retrieve one profile
-- `PUT /api/brands/:id` — update a profile
-- `DELETE /api/brands/:id` — delete a profile
-- `POST /api/detection/analyze` — analyze one user-supplied candidate against a saved brand
-- `GET /api/social-monitoring/analyses` — list the 50 most recent persisted analyses
-- `GET /api/social-monitoring/analyses/:id` — retrieve one persisted analysis
-- `GET /api/dashboard/overview?days=30&limit=10` — return backend-derived dashboard metrics and bounded activity
-- `GET /api/integrations/status` — return sanitized provider health and configuration status
-
-All profile bodies are validated and normalized server-side. New social accounts and mobile apps default to `unverified`; `verified` is a manual status with an evidence note, not an independent authenticity claim.
-
-## Evidence and integrations
-
-Every manual detection submission is normalized and stored with an evidence record in MongoDB's `evidence` collection. Records include a stable fingerprint, source classification (`user_submitted`), provider name (`manual_submission`), timestamps, validation status, normalized fields, limitations, and provenance labels. Provenance is assigned by the server; client-supplied provenance or verification claims are ignored.
-
-Equivalent observations for the same brand produce the same SHA-256 fingerprint. A duplicate is detected before the detection engine runs, so a repeated submission returns the existing analysis with `duplicateEvidence: true` and does not create another analysis or increase dashboard counts. Changed normalized content receives a new fingerprint and preserves the earlier record.
-
-The registered adapters include Apple's public App Store Search integration, Bluesky's public profile search, and a disabled mock provider used by automated tests. No Google Play, website, or security-intelligence provider is configured. Future provider credentials must remain in backend environment variables and are never returned to the frontend. Manual analysis continues to work without provider credentials.
-
-### Apple App Store Search
-
-Vikral includes one real authorized provider integration: Apple's public iTunes Search API at `https://itunes.apple.com/search`. Open Mobile App Monitoring and use the Apple App Store Search panel to submit a term, a two-letter storefront code such as `US`, and 1–10 results. Requests are made only to that fixed Apple host, use a five-second timeout and one-megabyte response limit, and are rate-limited per backend process.
-
-Returned listings are normalized into the existing mobile-app candidate contract. Selecting **Analyze listing** uses the existing Phase 3 detection engine; it does not create a second scoring system. Provider-backed evidence is stored in the `evidence` collection with `sourceType: "authorized_api"`, `sourceProvider: "apple_itunes_search"`, and provenance labels `provider_retrieved` and `normalized`. Apple catalog presence is not independent verification.
-
-The browser receives an opaque short-lived selection ID, while the selected listing metadata is retained server-side for the analysis request. Search results and evidence are bounded; no arbitrary URL supplied by a user is fetched.
-
-To verify a live request:
-
-1. Ensure MongoDB and the backend/frontend are running.
-2. Open <http://localhost:5173/app-monitoring>.
-3. Enter a search term such as `Vikral`, choose `US`, and choose a result limit no higher than 10.
-4. Click **Search Apple** and confirm real listings appear with Apple App Store source details.
-5. Select a saved brand, then click **Analyze listing** on one result.
-6. Confirm the normal score, signals, limitations, and history UI appear.
-7. In MongoDB, inspect the `vikral.evidence` collection and find the new record by its `sourceProvider`. It should contain `sourceType: "authorized_api"` and `provenance: ["provider_retrieved", "normalized"]`.
-8. Refresh the dashboard and confirm the analysis count increases once. Repeating **Analyze listing** for the same selected record should return `duplicateEvidence: true` and should not add another analysis.
-
-Apple API limitations: results are only what Apple's public catalog returns for the selected storefront and term; no authentication, ownership proof, private data, scheduled synchronization, or independent safety verdict is provided. This task does not add Google Play, social, crawling, or deployment integrations.
-
-## Detection Lab
-
-Open <http://localhost:5173/detection> to compare a candidate social account, website, or mobile app with a saved brand profile. The custom engine runs without an LLM key and returns deterministic review-priority scores from 0 to 100:
-
-- `0–24`: low
-- `25–49`: medium
-- `50–74`: high
-- `75–100`: critical
-
-These are review priorities, not fraud probabilities or proof of abuse. Exact matches to verified registered social/mobile assets are returned as an explicit trusted-asset exclusion. Unverified assets are never automatically treated as trusted. Candidate URLs are not fetched, and descriptions are treated as plain text.
-
-Optional AI context is provider-agnostic and disabled by default. Configure a future provider through backend-only variables such as `LLM_PROVIDER`, `LLM_API_KEY`, `LLM_MODEL`, and `LLM_TIMEOUT_MS`; no API key is required for deterministic analysis or tests.
-
-## Social Monitoring
-
-Open <http://localhost:5173/social-monitoring> to search public Bluesky profiles or submit a profile manually. Bluesky search uses the official unauthenticated AppView read endpoint `https://public.api.bsky.app/xrpc/app.bsky.actor.searchActors` through `POST /api/integrations/bluesky/search`. Selecting a result calls `POST /api/integrations/bluesky/analyze`; the server retains the selected record briefly, converts it to the existing `sourceType: "social"` candidate contract, and reuses the existing detection scoring through `analyzeAndPersist`.
-
-Bluesky search is bounded to a 1–100 character query and at most 10 results. Requests have a five-second timeout, a 512 KiB response limit, and a small local pacing guard. The public API documentation describes rate limiting but does not provide a simple fixed quota; upstream `429` responses are surfaced as unavailable search results rather than hidden. Search results are public profile metadata, not proof of ownership, authenticity, safety, or platform verification. The adapter stores a short-lived selection ID rather than trusting listing metadata sent back by the browser.
-
-Provider-backed analyses are persisted as evidence with `sourceType: "authorized_api"`, `sourceProvider: "bluesky_public_api"`, `provenance: ["provider_retrieved", "normalized"]`, and the Bluesky DID as the original reference. Manual submissions remain `user_submitted` with `manual_submission` provenance. Profile URLs supplied manually are still not fetched. The result is a review priority, not proof that a profile is fraudulent.
-
-## Threat Intelligence Dashboard
-
-Open <http://localhost:5173/dashboard> for the unified Phase 6 workspace. Its metrics are calculated from the saved `brands` and `analyses` MongoDB collections:
-
-- Registered brands: saved brand profiles.
-- Recorded analyses: persisted analysis results, not confirmed incidents.
-- High-priority findings: analyses rated `high` or `critical`.
-- Critical findings: analyses rated `critical`.
-- Social/mobile-app analyses: counts by saved `sourceType`.
-
-Risk and source distributions use the same priority categories and source types as the detection engine. Recent activity is bounded by the dashboard API's `limit` parameter. The trend uses UTC `analyzedAt` dates from the requested `days` window and is hidden when fewer than two dated points exist; analysis volume must not be interpreted as threat prevalence. The endpoint accepts `days` from 1–90 and `limit` from 1–50.
-
-## Mobile App Monitoring
-
-Open <http://localhost:5173/app-monitoring> to submit Android, iOS, or other mobile-app metadata. The form requires a registered brand, platform, and app name; package ID, bundle ID, publisher, store URL, description, and observed time are optional. The request reuses `POST /api/detection/analyze` with `sourceType: "mobile_app"` and app-specific fields. Existing persisted analysis history is reused through the social-monitoring history endpoints and filtered to mobile-app results in the UI.
-
-The deterministic engine can report app identifier and publisher mismatches when registered mobile-app records exist. Exact matching verified package IDs, bundle IDs, or store URLs receive the existing trusted-asset exclusion. Unverified records do not receive automatic exclusion. No Google Play, Apple App Store, or other store integration is implemented; submitted metadata is not independently retrieved or verified.
-
-The backend root at <http://localhost:3001/> returns basic API information. The frontend itself is served at <http://localhost:5173/>.
-
-## Checks
-
-```bash
-npm run typecheck
-npm run build
-npm test --workspace @vikral/backend
-```
+MongoDB provides persistent storage for supported application data, including brand profiles and investigation evidence, depending on the configured implementation.
 
 ## Deployment
 
-Vikral deploys as two separate services: the Vite frontend on Vercel, and the compiled Express API on Render. MongoDB Atlas is the only production persistence store; the backend exits when `MONGODB_URI` is missing or the Atlas connection fails.
+### Frontend — Vercel
 
-### Vercel frontend
+1. Import the GitHub repository into Vercel.
+2. Set the root directory to `frontend`.
+3. Select Vite if framework detection does not configure it automatically.
+4. Add `VITE_API_BASE_URL` with the deployed backend's base URL.
+5. Deploy the frontend.
+6. Configure the backend's CORS allowlist to include the deployed frontend origin.
 
-Set the Vercel project root directory to `frontend`.
+### Backend — Render
 
-- Framework preset: `Vite`
-- Build command: `npm run build`
-- Output directory: `dist`
-- Production environment variable: `VITE_API_BASE_URL=https://<render-service>.onrender.com/api`
-- Preview environment variable: use the same Render API URL unless a separate backend is explicitly configured
+1. Create a Node.js web service connected to the GitHub repository.
+2. If the repository contains the project root, configure the appropriate root directory. If the backend is in a separate repository with its files at the root, leave the root directory blank.
+3. Configure the build and start commands to match the backend's `package.json`.
+4. Set production environment variables, including `MONGODB_URI` and the required CORS configuration.
+5. Ensure MongoDB Atlas permits connections from the hosting environment.
+6. Deploy and review logs to verify successful startup.
 
-The frontend falls back to `/api` only for local development through the Vite proxy. Do not put MongoDB, OpenRouter, or other backend secrets in Vercel variables. `frontend/vercel.json` rewrites direct SPA routes to `index.html`.
+Do not assume deployment is successful until the backend starts, connects to the database, and responds to API requests.
 
-### Render backend
+## Security and Responsible Use
 
-The repository includes `render.yaml` for one Render Web Service. It uses:
+- Use public or otherwise authorized data sources.
+- Do not treat a similar username, logo, or domain as conclusive proof of fraud.
+- A domain outside a brand's trusted list is not automatically malicious.
+- Risk scores indicate assessed risk, not a probability of fraud.
+- Review supporting evidence before taking action against an account or application.
+- Keep credentials server-side and configure production CORS restrictions.
+- Handle provider errors and rate limits responsibly.
 
-- Root directory: `backend`
-- Build command: `npm install && npm run build`
-- Start command: `npm start`
-- Health check path: `/api/health`
+## Limitations
 
-Required Render environment variables:
+- Monitoring coverage depends on the available APIs and their search capabilities.
+- Public search results may not include every relevant account or application.
+- A detection result may be incomplete or produce false positives.
+- AI-generated explanations can be incorrect and should be reviewed.
+- Provider availability, network connectivity, and database configuration affect functionality.
 
-```env
-NODE_ENV=production
-MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>/<database>?retryWrites=true&w=majority
-CORS_ALLOWED_ORIGINS=https://<vercel-production-domain>,https://<explicit-approved-preview-domain>
-```
+Vikral is an investigation-support tool, not a substitute for professional security review or a guarantee of threat detection.
 
-Optional OpenRouter variables:
+## Future Improvements
 
-```env
-LLM_PROVIDER=openrouter
-OPENROUTER_API_KEY=<secret>
-OPENROUTER_BASE_URL=https://openrouter.ai/api/v1/chat/completions
-LLM_MODEL=openai/gpt-4o-mini
-LLM_TIMEOUT_MS=5000
-```
+- Additional social platform integrations
+- Scheduled monitoring and change detection
+- Email or dashboard alerts for emerging risks
+- Expanded domain and phishing intelligence
+- Advanced evidence correlation and reporting
+- Role-based access control and audit logs
 
-Render supplies `PORT`; the API binds to `0.0.0.0`. `CORS_ALLOWED_ORIGINS` is a comma-separated allowlist of exact origins. Wildcards are not accepted in production. Bluesky and Apple requests remain on-demand provider searches; the deployment does not claim continuous monitoring.
+## Contributing
 
-The backend tests use an injected in-memory repository for deterministic validation and route behavior. They do not verify MongoDB persistence. To verify persistence manually, configure `MONGODB_URI`, start the API, create a profile at `/brands`, stop and restart the backend, and confirm the profile remains.
+Contributions, bug reports, and feature suggestions are welcome.
 
-## Notes
+1. Fork the repository.
+2. Create a feature branch.
+3. Make and test your changes.
+4. Open a pull request describing the changes.
 
-- The background video uses the supplied CloudFront MP4 URL. If it fails to load, the page switches to a restrained CSS fallback background.
-- Inter is loaded from Google Fonts; a system sans-serif fallback is specified.
-- The two folders remain independently buildable through npm workspaces.
-- Phase 1 intentionally contains no live threat claims or fabricated threat data.
-#   h a c k a t h o n p r o j e c t 0 1  
- 
+## License
+
+No license has been specified yet. Add a `LICENSE` file before granting others explicit permission to reuse, modify, or distribute this project.
+
+---
+
+**Vikral — Digital risk intelligence for a safer online ecosystem.**
