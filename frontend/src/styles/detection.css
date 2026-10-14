@@ -1,0 +1,44 @@
+.detection-shell { min-height: 100svh; background: #f5f5f2; color: var(--ink); }
+.detection-header { display: flex; align-items: center; justify-content: space-between; padding: 24px 32px; border-bottom: 1px solid var(--line); background: rgba(255,255,255,.76); backdrop-filter: blur(18px); }
+.detection-content { width: min(1240px, calc(100% - 64px)); margin: 0 auto; padding: 82px 0 80px; }
+.detection-intro { max-width: 700px; }
+.detection-intro h1 { margin: 0; font-size: clamp(44px, 6vw, 76px); font-weight: 300; letter-spacing: -.075em; line-height: .98; }
+.detection-intro > p:not(.page-eyebrow) { max-width: 560px; margin: 22px 0 0; color: #626260; font-size: 15px; line-height: 1.7; }
+.detection-layout { display: grid; grid-template-columns: minmax(300px, .9fr) minmax(0, 1.1fr); gap: 18px; margin-top: 58px; align-items: start; }
+.detection-form, .detection-result { min-width: 0; padding: clamp(24px, 4vw, 38px); border: 1px solid var(--line); border-radius: 22px; background: rgba(255,255,255,.8); }
+.detection-form label { display: grid; gap: 7px; margin: 20px 0 0; color: #686864; font-size: 10px; }
+.detection-form input, .detection-form select, .detection-form textarea { width: 100%; padding: 11px 12px; border: 1px solid #e3e3df; border-radius: 9px; outline: none; background: #fff; color: #222; font: inherit; font-size: 12px; resize: vertical; }
+.detection-form input:focus, .detection-form select:focus, .detection-form textarea:focus { border-color: #777; box-shadow: 0 0 0 3px rgba(17,17,17,.06); }
+.detection-form .form-grid { margin-top: 2px; }
+.detection-form .button { margin-top: 26px; }
+.detection-note { margin: 18px 0 0; color: #8a8a86; font-size: 10px; line-height: 1.6; }
+.detection-result { min-height: 500px; }
+.detection-result--empty { display: flex; flex-direction: column; align-items: center; justify-content: center; color: #8a8a86; text-align: center; }
+.detection-result--empty h2 { margin: 15px 0 5px; color: #3d3d3b; font-size: 18px; font-weight: 400; }
+.detection-result--empty p { max-width: 280px; margin: 0; font-size: 12px; line-height: 1.7; }
+.result-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; }
+.result-heading h2 { margin: 0; font-size: 29px; font-weight: 300; letter-spacing: -.06em; text-transform: capitalize; }
+.risk-score { display: grid; min-width: 68px; place-items: center; padding: 10px; border-radius: 13px; background: #f0f0ed; color: #4b4b47; font-size: 25px; font-weight: 400; }
+.risk-score small { color: #898984; font-size: 9px; font-weight: 400; }
+.risk-score--critical, .risk-score--high { background: #f6e9e6; color: #9b4135; }
+.risk-score--medium { background: #f5f0df; color: #8b6b28; }
+.exclusion-callout, .result-summary { display: flex; gap: 10px; margin-top: 25px; padding: 13px; border-radius: 11px; font-size: 11px; line-height: 1.5; }
+.exclusion-callout { background: #e8f1ea; color: #386346; }
+.result-summary { background: #f5f0df; color: #75602c; }
+.exclusion-callout span { display: grid; gap: 4px; }
+.exclusion-callout small { color: #59705d; font-size: 10px; }
+.result-section { padding-top: 22px; margin-top: 22px; border-top: 1px solid #ebebe8; }
+.result-section h3 { display: flex; justify-content: space-between; margin: 0 0 12px; font-size: 12px; font-weight: 500; }
+.result-section h3 span { color: #999; font-weight: 400; }
+.ai-finding { margin-top: 12px; padding: 10px 12px; border-radius: 10px; background: #f5f5f1; }
+.ai-finding strong { font-size: 11px; }
+.ai-finding p, .ai-finding small { display: block; margin: 5px 0 0; color: #777; font-size: 11px; line-height: 1.5; }
+.signal-list { display: grid; gap: 8px; }
+.signal-row { display: flex; justify-content: space-between; gap: 12px; padding: 11px 12px; border: 1px solid #ededeb; border-radius: 10px; }
+.signal-row span { display: grid; gap: 5px; min-width: 0; }
+.signal-row strong { color: #4c4c48; font-size: 10px; text-transform: capitalize; }
+.signal-row small { color: #888; font-size: 10px; line-height: 1.5; }
+.signal-row b { color: #9b4135; font-size: 11px; font-weight: 500; }
+.limitations { margin: 0; padding-left: 16px; color: #888; font-size: 10px; line-height: 1.7; }
+@media (max-width: 800px) { .detection-header { padding: 18px 16px; } .detection-content { width: min(100% - 32px, 620px); padding-top: 58px; } .detection-layout { grid-template-columns: 1fr; margin-top: 44px; } }
+@media (max-width: 520px) { .detection-intro h1 { font-size: 52px; } .detection-form .form-grid { grid-template-columns: 1fr; } .detection-form, .detection-result { padding: 22px 18px; } }

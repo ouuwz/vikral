@@ -1,0 +1,24 @@
+{
+  "name": "vikral",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Vikral Phase 1 — Digital Risk Protection platform foundation",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "scripts": {
+    "dev": "concurrently -k -n API,WEB -c blue,green \"npm:dev:backend\" \"npm:dev:frontend\"",
+    "dev:frontend": "npm run dev --workspace @vikral/frontend",
+    "dev:backend": "npm run dev --workspace @vikral/backend",
+    "build": "npm run build --workspace @vikral/frontend && npm run build --workspace @vikral/backend",
+    "typecheck": "npm run typecheck --workspace @vikral/frontend && npm run typecheck --workspace @vikral/backend",
+    "start:backend": "npm run start --workspace @vikral/backend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

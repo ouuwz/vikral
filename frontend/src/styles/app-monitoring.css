@@ -1,0 +1,47 @@
+.app-monitoring-shell { min-height: 100svh; background: #f5f5f2; color: var(--ink); }
+.app-monitoring-header { display: flex; align-items: center; justify-content: space-between; padding: 24px 32px; border-bottom: 1px solid var(--line); background: rgba(255,255,255,.76); backdrop-filter: blur(18px); }
+.app-monitoring-content { width: min(1240px, calc(100% - 64px)); margin: 0 auto; padding: 82px 0 80px; }
+.app-monitoring-intro { max-width: 720px; }
+.app-monitoring-intro h1 { margin: 0; font-size: clamp(44px, 6vw, 76px); font-weight: 300; letter-spacing: -.075em; line-height: .98; }
+.app-monitoring-intro > p:not(.page-eyebrow) { max-width: 590px; margin: 22px 0 27px; color: #626260; font-size: 15px; line-height: 1.7; }
+.app-monitoring-intro .button { gap: 10px; }
+.app-monitoring-layout { display: grid; grid-template-columns: minmax(300px, .9fr) minmax(0, 1.1fr); gap: 18px; margin-top: 54px; align-items: start; }
+.app-monitoring-form, .app-monitoring-result, .app-recent-analyses { min-width: 0; padding: clamp(24px, 4vw, 38px); border: 1px solid var(--line); border-radius: 22px; background: rgba(255,255,255,.8); }
+.app-monitoring-form label { display: grid; gap: 7px; margin: 20px 0 0; color: #686864; font-size: 10px; }
+.app-monitoring-form input, .app-monitoring-form select, .app-monitoring-form textarea { width: 100%; padding: 11px 12px; border: 1px solid #e3e3df; border-radius: 9px; outline: none; background: #fff; color: #222; font: inherit; font-size: 12px; resize: vertical; }
+.app-monitoring-form input:focus, .app-monitoring-form select:focus, .app-monitoring-form textarea:focus { border-color: #777; box-shadow: 0 0 0 3px rgba(17,17,17,.06); }
+.app-monitoring-form .button { margin-top: 26px; }
+.app-monitoring-note { margin: 18px 0 0; color: #8a8a86; font-size: 10px; line-height: 1.6; }
+.app-monitoring-result { min-height: 500px; }
+.app-monitoring-result--empty { display: flex; flex-direction: column; align-items: center; justify-content: center; color: #8a8a86; text-align: center; }
+.app-monitoring-result--empty h2 { margin: 15px 0 5px; color: #3d3d3b; font-size: 18px; font-weight: 400; }
+.app-monitoring-result--empty p { max-width: 280px; margin: 0; font-size: 12px; line-height: 1.7; }
+.app-result-metadata { display: grid; gap: 5px; margin: 0; color: #888; font-size: 10px; }
+.app-result-metadata strong { color: #333; font-size: 12px; font-weight: 500; }
+.app-recent-analyses { margin-top: 18px; }
+.app-recent-analyses .section-heading { margin-bottom: 22px; }
+.app-recent-analyses .section-heading h2 { margin: 0; font-size: 25px; font-weight: 400; letter-spacing: -.05em; }
+.app-monitoring-empty { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 32px; color: #999; text-align: center; }
+.app-monitoring-empty p { margin: 5px 0 0; color: #555; font-size: 13px; }
+.app-monitoring-empty span { color: #888; font-size: 11px; }
+@media (max-width: 800px) { .app-monitoring-header { padding: 18px 16px; } .app-monitoring-content { width: min(100% - 32px, 620px); padding-top: 58px; } .app-monitoring-layout { grid-template-columns: 1fr; margin-top: 44px; } }
+@media (max-width: 520px) { .app-monitoring-intro h1 { font-size: 52px; } .app-monitoring-form .form-grid { grid-template-columns: 1fr; } .app-monitoring-form, .app-monitoring-result, .app-recent-analyses { padding: 22px 18px; } .app-monitoring-header .brands-header-meta { font-size: 10px; } }
+.apple-search-panel { margin: 22px 0 18px; padding: 26px; border: 1px solid var(--line); border-radius: 20px; background: rgba(255,255,255,.8); }
+.apple-search-form { display: grid; grid-template-columns: minmax(0, 1fr) 110px 100px auto; align-items: end; gap: 12px; margin-top: 18px; }
+.apple-search-form label { display: grid; gap: 7px; color: #555; font-size: 11px; }
+.apple-search-form input, .apple-search-form select { width: 100%; min-height: 43px; padding: 0 12px; border: 1px solid #deded9; border-radius: 9px; background: #fff; color: var(--ink); font: inherit; font-size: 12px; }
+.apple-results { display: grid; gap: 9px; margin-top: 18px; }
+.apple-result { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 15px; border: 1px solid #e7e7e2; border-radius: 12px; background: #fff; }
+.apple-result > div:first-child { display: grid; gap: 4px; min-width: 0; }
+.apple-result strong { color: #333; font-size: 13px; font-weight: 500; }
+.apple-result span, .apple-result small { overflow: hidden; color: #777; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+.apple-result small { color: #999; }
+.apple-result-actions { display: flex; flex-shrink: 0; gap: 7px; }
+.apple-result-actions .button { min-height: 34px; padding: 0 11px; font-size: 10px; }
+.apple-empty { padding: 24px 0 4px; color: #999; font-size: 11px; }
+.status-message--notice { align-items: flex-start; background: #f5f0df; border-color: #e8d9ae; color: #765c1d; }
+.status-message--notice a { color: inherit; font-weight: 600; text-decoration: underline; }
+.ai-finding { margin-top: 12px; padding: 10px 12px; border-radius: 10px; background: #f5f5f1; }
+.ai-finding strong { font-size: 11px; }
+.ai-finding p, .ai-finding small { display: block; margin: 5px 0 0; color: #777; font-size: 11px; line-height: 1.5; }
+@media (max-width: 760px) { .apple-search-form { grid-template-columns: 1fr 90px; }.apple-search-form .button { width: 100%; }.apple-result { align-items: flex-start; flex-direction: column; }.apple-result-actions { width: 100%; }.apple-result-actions .button { flex: 1; } }
