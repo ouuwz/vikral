@@ -283,3 +283,5 @@ The backend tests use an injected in-memory repository for deterministic validat
 - Inter is loaded from Google Fonts; a system sans-serif fallback is specified.
 - The two folders remain independently buildable through npm workspaces.
 - Phase 1 intentionally contains no live threat claims or fabricated threat data.
+#   h a c k a t h o n p r o j e c t 0 1  
+ 
