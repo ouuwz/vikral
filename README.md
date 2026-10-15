@@ -1,4 +1,4 @@
-# Vikral — AI-Powered Digital Risk Protection
+# Vikral — AI-Powered Digital Risk Protection and Fucking lund project
 
 **Detect digital threats. Investigate suspicious identities. Protect your brand.**
 
